@@ -1,0 +1,204 @@
+.booking-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.booking-page .container {
+  max-width: 800px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.timer {
+  background: #28a745;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 25px;
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+.timer.warning {
+  background: #dc3545;
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.train-list {
+  margin-bottom: 25px;
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.train-item {
+  border: 3px solid #e0e0e0;
+  border-radius: 15px;
+  padding: 20px;
+  margin-bottom: 15px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.train-item:hover {
+  border-color: #667eea;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+}
+
+.train-item.selected {
+  border-color: #667eea;
+  background: #f0f4ff;
+}
+
+.train-item.sold-out {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: #f5f5f5;
+}
+
+.train-item.sold-out:hover {
+  border-color: #e0e0e0;
+  transform: none;
+  box-shadow: none;
+}
+
+.train-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.train-header h3 {
+  color: #667eea;
+  margin: 0;
+}
+
+.seats {
+  background: #28a745;
+  color: white;
+  padding: 5px 15px;
+  border-radius: 15px;
+  font-size: 0.9em;
+}
+
+.sold-out .seats {
+  background: #dc3545;
+}
+
+.train-route {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 10px;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.arrow {
+  color: #667eea;
+}
+
+.train-time {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #666;
+  font-size: 0.95em;
+}
+
+.book-button {
+  width: 100%;
+  padding: 18px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  font-size: 1.2em;
+}
+
+/* 예매 완료 화면 */
+.booking-complete {
+  text-align: center;
+}
+
+.success-icon {
+  font-size: 5em;
+  margin: 20px 0;
+}
+
+.booking-complete h2 {
+  color: #28a745;
+  margin-bottom: 30px;
+}
+
+.booking-info {
+  background: #f8f9fa;
+  border-radius: 15px;
+  padding: 25px;
+  margin: 25px 0;
+  text-align: left;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.info-row:last-child {
+  border-bottom: none;
+}
+
+.label {
+  font-weight: bold;
+  color: #666;
+}
+
+.value {
+  color: #333;
+}
+
+.value.highlight {
+  color: #667eea;
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+.notice {
+  background: #fff3cd;
+  border: 2px solid #ffc107;
+  border-radius: 10px;
+  padding: 15px;
+  margin: 20px 0;
+}
+
+.notice p {
+  margin: 0;
+  color: #856404;
+  font-weight: bold;
+}
+
+.home-button {
+  width: 100%;
+  padding: 15px;
+  background: #6c757d;
+  color: white;
+  font-size: 1.1em;
+  margin-top: 20px;
+}

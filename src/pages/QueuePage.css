@@ -1,0 +1,83 @@
+.queue-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.queue-info {
+  text-align: center;
+  padding: 40px 0;
+}
+
+.spinner {
+  width: 80px;
+  height: 80px;
+  border: 8px solid #f3f3f3;
+  border-top: 8px solid #667eea;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 30px;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.position-display {
+  margin: 30px 0;
+}
+
+.position-display h2 {
+  font-size: 3em;
+  color: #667eea;
+  margin-bottom: 10px;
+}
+
+.position-display p {
+  font-size: 1.2em;
+  color: #666;
+}
+
+.waiting-message {
+  margin-top: 30px;
+}
+
+.waiting-message p {
+  margin: 10px 0;
+  color: #555;
+  font-size: 1.1em;
+}
+
+.sub-text {
+  color: #888;
+  font-size: 0.9em !important;
+}
+
+.notice-box {
+  background: #fff3cd;
+  border: 2px solid #ffc107;
+  border-radius: 15px;
+  padding: 20px;
+  margin-top: 30px;
+}
+
+.notice-box h3 {
+  color: #856404;
+  margin-bottom: 15px;
+}
+
+.notice-box ul {
+  list-style-position: inside;
+  color: #856404;
+}
+
+.notice-box li {
+  margin: 8px 0;
+  font-size: 0.95em;
+}
