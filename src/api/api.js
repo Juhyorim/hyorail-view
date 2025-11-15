@@ -25,8 +25,8 @@ export const queueAPI = {
 };
 
 export const authAPI = {
-  login: (username, password) =>
-    api.post("/auth/login", { username, password }),
+  login: (username, password, userId) =>
+    api.post("/auth/login", { username, password, userId }),
   logout: () => api.post("/auth/logout"),
   validateSession: () => api.get("/auth/validate"),
 };

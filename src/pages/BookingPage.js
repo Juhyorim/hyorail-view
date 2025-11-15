@@ -8,8 +8,9 @@ function BookingPage() {
   const [trains, setTrains] = useState([]);
   const [selectedTrain, setSelectedTrain] = useState(null);
   const [remainingTime, setRemainingTime] = useState(180); // 3분 = 180초
-  const [booking, setBooking] = useState(null);
+  const [bookings, setBookings] = useState([]); // 배열로 변경
   const [loading, setLoading] = useState(false);
+  const [showBookings, setShowBookings] = useState(false); // 예매 내역 표시 여부
 
   useEffect(() => {
     const sessionId = localStorage.getItem("sessionId");
@@ -74,8 +75,21 @@ function BookingPage() {
 
     try {
       const response = await bookingAPI.book(selectedTrain.id);
-      setBooking(response.data);
-      alert("예매가 완료되었습니다!");
+      const newBooking = response.data;
+
+      // 예매 내역에 추가
+      setBookings((prev) => [...prev, newBooking]);
+
+      // 선택 해제
+      setSelectedTrain(null);
+
+      // 열차 목록 새로고침
+      const trainsResponse = await bookingAPI.getTrains();
+      setTrains(trainsResponse.data);
+
+      alert(
+        `예매 완료! (좌석: ${newBooking.seatNumber})\n계속 예매하실 수 있습니다.`
+      );
     } catch (error) {
       console.error("예매 실패:", error);
       const message = error.response?.data?.message || "예매에 실패했습니다.";
@@ -101,54 +115,6 @@ function BookingPage() {
     });
   };
 
-  if (booking) {
-    return (
-      <div className="booking-page">
-        <div className="container">
-          <h1>✅ 예매 완료</h1>
-
-          <div className="booking-complete">
-            <div className="success-icon">🎉</div>
-            <h2>예매가 완료되었습니다!</h2>
-
-            <div className="booking-info">
-              <div className="info-row">
-                <span className="label">열차번호</span>
-                <span className="value">{booking.trainNumber}</span>
-              </div>
-              <div className="info-row">
-                <span className="label">출발지</span>
-                <span className="value">{booking.departure}</span>
-              </div>
-              <div className="info-row">
-                <span className="label">도착지</span>
-                <span className="value">{booking.arrival}</span>
-              </div>
-              <div className="info-row">
-                <span className="label">출발시간</span>
-                <span className="value">
-                  {formatDateTime(booking.departureTime)}
-                </span>
-              </div>
-              <div className="info-row">
-                <span className="label">좌석번호</span>
-                <span className="value highlight">{booking.seatNumber}</span>
-              </div>
-            </div>
-
-            <div className="notice">
-              <p>💳 결제는 내일 일괄 진행됩니다</p>
-            </div>
-
-            <button onClick={() => navigate("/")} className="home-button">
-              처음으로
-            </button>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="booking-page">
       <div className="container">
@@ -158,6 +124,36 @@ function BookingPage() {
             남은 시간: {formatTime(remainingTime)}
           </div>
         </div>
+
+        {/* 예매 내역 표시 */}
+        {bookings.length > 0 && (
+          <div className="bookings-summary">
+            <div className="summary-header">
+              <h3>✅ 예매 완료: {bookings.length}건</h3>
+              <button
+                className="toggle-button"
+                onClick={() => setShowBookings(!showBookings)}
+              >
+                {showBookings ? "숨기기 ▲" : "보기 ▼"}
+              </button>
+            </div>
+
+            {showBookings && (
+              <div className="bookings-list">
+                {bookings.map((booking, index) => (
+                  <div key={index} className="booking-item">
+                    <span className="booking-number">{index + 1}.</span>
+                    <span className="booking-train">{booking.trainNumber}</span>
+                    <span className="booking-route">
+                      {booking.departure} → {booking.arrival}
+                    </span>
+                    <span className="booking-seat">{booking.seatNumber}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
 
         <div className="train-list">
           {trains.map((train) => (

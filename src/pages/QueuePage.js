@@ -9,19 +9,28 @@ function QueuePage() {
   const [queueToken, setQueueToken] = useState(null);
 
   useEffect(() => {
-    const userId = localStorage.getItem("userId");
+    // localStorage에서 임시 userId 가져오기 (없으면 생성)
+    let userId = localStorage.getItem("tempUserId");
     if (!userId) {
-      navigate("/");
-      return;
+      userId = `guest_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+      localStorage.setItem("tempUserId", userId);
     }
 
     // 대기열 진입
     queueAPI
       .enterQueue(userId)
       .then((response) => {
-        const { queueToken, position } = response.data;
+        const { queueToken, position, status } = response.data;
         setQueueToken(queueToken);
         setQueuePosition(position);
+
+        // 즉시 통과 가능하면 바로 로그인 페이지로
+        if (status === "ready") {
+          setTimeout(() => {
+            navigate("/login");
+          }, 1000);
+          return;
+        }
 
         // SSE 연결하여 실시간 위치 업데이트
         const eventSource = new EventSource(

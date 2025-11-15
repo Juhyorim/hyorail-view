@@ -39,8 +39,12 @@ function StartPage() {
   }, []);
 
   const handleBooking = () => {
-    const userId = `user_${Date.now()}`;
-    localStorage.setItem("userId", userId);
+    // localStorage 기반 임시 userId (새로고침해도 유지)
+    let userId = localStorage.getItem("tempUserId");
+    if (!userId) {
+      userId = `guest_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+      localStorage.setItem("tempUserId", userId);
+    }
     navigate("/queue");
   };
 

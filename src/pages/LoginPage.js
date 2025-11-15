@@ -14,7 +14,14 @@ function LoginPage() {
     setError("");
 
     try {
-      const response = await authAPI.login(username, password);
+      // localStorage에서 tempUserId 가져오기
+      const tempUserId = localStorage.getItem("tempUserId");
+      if (!tempUserId) {
+        setError("대기열을 거치지 않은 접근입니다.");
+        return;
+      }
+
+      const response = await authAPI.login(username, password, tempUserId);
       const { sessionId, userId, name } = response.data;
 
       localStorage.setItem("sessionId", sessionId);
@@ -25,7 +32,10 @@ function LoginPage() {
       navigate("/booking");
     } catch (error) {
       console.error("로그인 실패:", error);
-      setError("로그인에 실패했습니다. 아이디와 비밀번호를 확인해주세요.");
+      const message =
+        error.response?.data?.message ||
+        "로그인에 실패했습니다. 아이디와 비밀번호를 확인해주세요.";
+      setError(message);
     }
   };
 
